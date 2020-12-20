@@ -1,0 +1,122 @@
+print("Seja bem-vindo(a)")
+def perguntar():
+    resposta=input("O que deseja realizar?\n"
+            "<A> - Para doar um novo livro\n"
+            "<B> - Para retirar um livro\n"
+            "<C> - Para devolver um livro \n").upper()
+    return resposta
+
+
+def inserir(livros):
+        titulo = input("Digite o título do livro: ").upper()
+        autor = input("Digite o autor do livro: ").upper()
+        ano = input("Digite o ano de publicação: ")
+        print("Livro Cadastrado com sucesso!")
+        print ()
+
+        livro = {
+         "titulo": titulo,
+         "autor": autor,
+         "ano": ano,
+         "status":"Disponível", 
+         "responsavel":"none"
+         }
+
+        livros.append(livro.copy())
+        
+
+def listar(livros):
+    i = 0
+    for livro in livros:
+        i = i + 1
+        print(">>> LIVRO " + str(i) + " <<<")
+        
+        for key in livro:
+            print(key.capitalize() + ": " + livro[key])
+
+        print()
+
+               
+livros = []
+
+livros = [
+    {
+     "titulo":"Como fazer sentido e bater o martelo",
+     "autor":"Alexandro Aolchique",
+     "ano":"2017", 
+     "status":"Disponível",
+     "responsavel":"none"
+    },
+{
+     "titulo":"Código Limpo",
+     "autor":"Tio Bob",
+     "ano":"2001", 
+     "status":"Disponível", 
+     "responsavel":"none"
+    },
+{
+     "titulo":"Basquete 101",
+     "autor":"Hortência Marcari",
+     "ano":"2010",
+     "status":"Disponível", 
+     "responsavel":"none"
+}]
+
+opcao = perguntar()
+
+while opcao=="A" or opcao=="B" or opcao=="C":
+    if opcao=="A":
+        inserir(livros)
+        listar(livros)
+        print()
+        opcao = perguntar()
+
+    elif opcao=="B":
+        lEscolhido = 0
+        tamLista = len(livros)
+        listar(livros)
+
+        while True: 
+            lEscolhido = int(input("Informe o número do livro desejado: "))
+            lEscolhido -= 1
+
+            if lEscolhido >= tamLista:
+               print("Existem apenas " + str(tamLista) + " livros cadastrados")
+               print("Digite um número de livro válido")
+               
+            elif livros[lEscolhido]["status"] == "Indisponível":
+                print("Livro indisponível, escolha outro")
+            else:
+               break
+
+        print("Livro " + livros[lEscolhido]["titulo"] + " Disponível para retirada")     
+        responsavel = input("Informe o responsável pela retirada: ")
+        livros[lEscolhido]["status"] = "Indisponível"
+        livros[lEscolhido]["responsavel"] = responsavel
+        print("Livro " + livros[lEscolhido]["titulo"] + " retirado com Sucesso! Boa Leitura!")
+        opcao = perguntar()
+      
+    elif opcao=="C":
+        lEscolhido = 0
+        tamLista = len(livros)
+        
+        while True: 
+            lEscolhido = int(input("Informe o número do livro a ser devolvido: "))
+            lEscolhido -= 1
+
+            if lEscolhido >= tamLista:
+               print("Existem apenas " + str(tamLista) + " livros cadastrados")
+               print("Digite um número de livro válido")
+               
+            elif livros[lEscolhido]["status"] == "Disponível":
+                print("Este livro não está emprestado no momento, informe um número válido.")
+
+            else:
+               break
+                
+        livros[lEscolhido]["status"] = "Disponível"
+        livros[lEscolhido]["responsavel"] = "none"
+        print("Livro " + livros[lEscolhido]["titulo"] + " devolvido!")
+        opcao = perguntar()
+        
+
